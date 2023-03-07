@@ -1,9 +1,11 @@
 package com.lin.opush.service;
 
-import com.lin.opush.domain.User;
 import com.lin.opush.dto.UserDTO;
 import com.lin.opush.vo.BasicResultVO;
 
+/**
+ * 用户服务接口
+ */
 public interface IUserService {
 
     BasicResultVO sendCode(String phone);

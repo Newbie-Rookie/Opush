@@ -1,0 +1,6 @@
+com\lin\opush\domain\User.class
+com\lin\opush\dao\UserDao.class
+com\lin\opush\domain\ChannelAccount$ChannelAccountBuilder.class
+com\lin\opush\domain\ChannelAccount.class
+com\lin\opush\domain\User$UserBuilder.class
+com\lin\opush\dao\ChannelAccountDao.class

@@ -1,12 +1,14 @@
 package com.lin.opush.controller;
 
-import com.lin.opush.domain.User;
 import com.lin.opush.dto.UserDTO;
 import com.lin.opush.service.IUserService;
 import com.lin.opush.vo.BasicResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 用户登录、注册、登出控制器
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {

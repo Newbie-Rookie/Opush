@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 渠道账号服务接口实现
+ */
 @Service
 public class ChannelAccountServiceImpl implements IChannelAccountService {
 

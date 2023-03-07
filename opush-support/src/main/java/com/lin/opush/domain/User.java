@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * 用户信息
+ */
 @Data
 @Builder
 @NoArgsConstructor

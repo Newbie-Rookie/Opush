@@ -11,6 +11,9 @@ import com.tencentcloudapi.sms.v20210111.models.SendSmsRequest;
 import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 腾讯云短信服务
+ */
 @Slf4j
 public class TencentSmsScript {
     public static void send(TencentSmsAccount tencentSmsAccount, String phone, String code) {

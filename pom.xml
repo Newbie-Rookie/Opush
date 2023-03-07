@@ -84,6 +84,13 @@
                 <artifactId>tencentcloud-sdk-java</artifactId>
                 <version>3.1.688</version>
             </dependency>
+
+            <!-- graylog -->
+            <dependency>
+                <groupId>de.siegmar</groupId>
+                <artifactId>logback-gelf</artifactId>
+                <version>3.0.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

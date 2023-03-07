@@ -16,8 +16,10 @@ import com.lin.opush.service.IUserService;
 import com.lin.opush.utils.TencentSmsScript;
 import com.lin.opush.utils.UserHolder;
 import com.lin.opush.vo.BasicResultVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -28,6 +30,10 @@ import static com.lin.opush.constants.RedisConstant.*;
 import static com.lin.opush.constants.RegexConstant.CODE_REGEX;
 import static com.lin.opush.constants.RegexConstant.PHONE_REGEX;
 
+/**
+ * 用户服务接口实现
+ */
+@Slf4j
 @Service
 public class UserServiceImpl implements IUserService {
     @Autowired
@@ -50,10 +56,10 @@ public class UserServiceImpl implements IUserService {
         }
         // 3.符合，生成验证码
         String code = RandomUtil.randomNumbers(6);
-        System.out.println(code);
         // 4.保存验证码和验证码验证次数（超过3次验证码失效）到Redis中
-        stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY + phone, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
-        stringRedisTemplate.opsForValue().set(LOGIN_CODE_VERIFY_KEY + phone, "0", LOGIN_CODE_VERIFY_TTL, TimeUnit.MINUTES);
+        ValueOperations<String, String> opertions = stringRedisTemplate.opsForValue();
+        opertions.set(LOGIN_CODE_KEY + phone, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
+        opertions.set(LOGIN_CODE_VERIFY_KEY + phone, "0", LOGIN_CODE_VERIFY_TTL, TimeUnit.MINUTES);
         // 5.发送验证码
         // 5.1 获取短信渠道配置
         ChannelAccount channelAccount = channelAccountService.queryByName(smsName);
@@ -61,6 +67,7 @@ public class UserServiceImpl implements IUserService {
         // 5.2 发送验证码
         // TencentSmsScript.send(tencentSmsAccount, phone, code);
         // 返回success
+        log.info("发送验证码给" + phone + " : " + code);
         return BasicResultVO.success();
     }
 
