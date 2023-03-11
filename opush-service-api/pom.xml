@@ -11,5 +11,11 @@
 
     <artifactId>opush-service-api</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.lin.opush</groupId>
+            <artifactId>opush-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

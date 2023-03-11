@@ -3,6 +3,7 @@ com\lin\opush\dto\account\sms\TencentSmsAccount.class
 com\lin\opush\dto\model\AlipayMiniProgramContentModel.class
 com\lin\opush\dto\model\EmailContentModel.class
 com\lin\opush\dto\account\WeChatMiniProgramAccount$WeChatMiniProgramAccountBuilder.class
+com\lin\opush\dto\account\sms\AliyunSmsAccount.class
 com\lin\opush\dto\model\FeiShuRobotContentModel.class
 com\lin\opush\dto\model\MiniProgramContentModel.class
 com\lin\opush\dto\model\DingDingWorkContentModel.class
@@ -13,7 +14,9 @@ com\lin\opush\dto\model\EnterpriseWeChatRobotContentModel.class
 com\lin\opush\dto\model\DingDingWorkContentModel$DingDingWorkContentModelBuilder.class
 com\lin\opush\dto\model\OfficialAccountsContentModel$OfficialAccountsContentModelBuilder.class
 com\lin\opush\dto\model\EnterpriseWeChatContentModel.class
+com\lin\opush\enums\AuditStatus.class
 com\lin\opush\dto\account\AlipayMiniProgramAccount$AlipayMiniProgramAccountBuilder.class
+com\lin\opush\domain\TaskInfo$TaskInfoBuilder.class
 com\lin\opush\dto\account\YunPianSmsAccount$YunPianSmsAccountBuilder.class
 com\lin\opush\dto\model\ContentModel.class
 com\lin\opush\constants\RedisConstant.class
@@ -22,11 +25,13 @@ com\lin\opush\dto\model\PushContentModel.class
 com\lin\opush\dto\model\MiniProgramContentModel$MiniProgramContentModelBuilder.class
 com\lin\opush\dto\account\GeTuiAccount.class
 com\lin\opush\dto\model\ImContentModel.class
+com\lin\opush\enums\MessageStatus.class
 com\lin\opush\vo\BasicResultVO.class
 com\lin\opush\dto\model\DingDingRobotContentModel$DingDingRobotContentModelBuilder.class
 com\lin\opush\dto\account\DingDingWorkNoticeAccount.class
 com\lin\opush\dto\account\EnterpriseWeChatRobotAccount$EnterpriseWeChatRobotAccountBuilder.class
 com\lin\opush\dto\account\EnterpriseWeChatRobotAccount.class
+com\lin\opush\domain\TaskInfo.class
 com\lin\opush\dto\account\FeiShuRobotAccount$FeiShuRobotAccountBuilder.class
 com\lin\opush\enums\ChannelType.class
 com\lin\opush\dto\account\WeChatOfficialAccount$WeChatOfficialAccountBuilder.class
@@ -34,6 +39,7 @@ com\lin\opush\dto\model\EnterpriseWeChatRobotContentModel$EnterpriseWeChatRobotC
 com\lin\opush\dto\account\YunPianSmsAccount.class
 com\lin\opush\dto\model\OfficialAccountsContentModel.class
 com\lin\opush\dto\account\GeTuiAccount$GeTuiAccountBuilder.class
+com\lin\opush\constants\OpushConstant.class
 com\lin\opush\enums\RespStatusEnum.class
 com\lin\opush\dto\account\AlipayMiniProgramAccount.class
 com\lin\opush\constants\RegexConstant.class
@@ -46,5 +52,7 @@ com\lin\opush\dto\account\DingDingRobotAccount.class
 com\lin\opush\dto\model\EmailContentModel$EmailContentModelBuilder.class
 com\lin\opush\dto\account\DingDingWorkNoticeAccount$DingDingWorkNoticeAccountBuilder.class
 com\lin\opush\dto\model\DingDingRobotContentModel.class
+com\lin\opush\enums\IdType.class
 com\lin\opush\dto\account\sms\SmsAccount.class
 com\lin\opush\dto\model\EnterpriseWeChatContentModel$EnterpriseWeChatContentModelBuilder.class
+com\lin\opush\constants\CommonConstant.class

@@ -5,7 +5,7 @@ import com.lin.opush.domain.ChannelAccount;
 import java.util.List;
 
 /**
- * 渠道账号接口
+ * 渠道账号管理接口
  */
 public interface IChannelAccountService {
 

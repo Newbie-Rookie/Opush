@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author 3y
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +23,4 @@ public class SmsAccount {
      * 依据ScriptName对应具体的某一个短信账号
      */
     protected String scriptName;
-
-
 }

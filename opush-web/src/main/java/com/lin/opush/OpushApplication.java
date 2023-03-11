@@ -17,7 +17,7 @@ public class OpushApplication {
          * 2、将application.properties配置文件的 austin.apollo.enabled 改为true
          * 3、下方的property替换真实的ip和port
          */
-        // System.setProperty("apollo.config-service", "http://austin.apollo.config:5001");
+        // System.setProperty("apollo.config-com.lin.opush.com.lin.opush.service", "http://austin.apollo.config:5001");
         SpringApplication.run(OpushApplication.class, args);
     }
 }

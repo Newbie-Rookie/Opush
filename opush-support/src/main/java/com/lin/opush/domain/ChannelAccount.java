@@ -29,7 +29,7 @@ public class ChannelAccount {
 
     /**
      * 发送渠道（枚举值）
-     * 枚举值：com.lin.opush.common.enums.ChannelType
+     * 枚举值：com.lin.opush.common.com.lin.opush.enums.ChannelType
      */
     private Integer sendChannel;
 

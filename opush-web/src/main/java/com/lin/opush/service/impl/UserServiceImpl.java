@@ -67,7 +67,7 @@ public class UserServiceImpl implements IUserService {
         // 5.2 发送验证码
         // TencentSmsScript.send(tencentSmsAccount, phone, code);
         // 返回success
-        log.info("发送验证码给" + phone + " : " + code);
+        log.info("发送验证码 → " + phone + " : " + code);
         return BasicResultVO.success();
     }
 
@@ -123,6 +123,7 @@ public class UserServiceImpl implements IUserService {
         stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
         // 7.返回token
         userDTO.setToken(token);
+        log.info("用户 " + phone + " 登录");
         return BasicResultVO.success(userDTO);
     }
 
@@ -130,10 +131,13 @@ public class UserServiceImpl implements IUserService {
     public BasicResultVO logout(String token) {
         // tokenKey
         String tokenKey = LOGIN_USER_KEY + token;
+        // 获取phone
+        String phone = (String) stringRedisTemplate.opsForHash().get(tokenKey, "phone");
         // 清除redis中的token对应的用户信息
         stringRedisTemplate.expire(tokenKey, LOGIN_USER_TIMESOUT_TTL, TimeUnit.MINUTES);
         // 移除ThreadLocal中的用户信息
         UserHolder.removeUser();
+        log.info("用户 " + phone + " 登出");
         return BasicResultVO.success();
     }
 }

@@ -118,6 +118,10 @@
     <orderEntry type="library" name="Maven: de.siegmar:logback-gelf:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.2.11" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.2.11" level="project" />
+    <orderEntry type="library" name="Maven: cn.monitor4all:log-record-starter:1.0.4.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.12.0" level="project" />
+    <orderEntry type="module" module-name="opush-service-api" />
+    <orderEntry type="module" module-name="opush-service-api-impl" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.7.7" level="project" />
@@ -146,6 +150,7 @@
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.28" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
     <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.8.12" level="project" />
+    <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.24" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-redis:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:2.7.6" level="project" />

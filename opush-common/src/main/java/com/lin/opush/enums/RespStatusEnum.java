@@ -39,19 +39,18 @@ public enum RespStatusEnum {
     RESOURCE_NOT_FOUND("B0404", "资源不存在"),
 
     /**
-     * pipeline
+     * chain（执行链）
      */
-    CONTEXT_IS_NULL("P0001", "流程上下文为空"),
-    BUSINESS_CODE_IS_NULL("P0002", "业务代码为空"),
-    PROCESS_TEMPLATE_IS_NULL("P0003", "流程模板配置为空"),
-    PROCESS_LIST_IS_NULL("P0004", "业务处理器配置为空"),
+    CONTEXT_IS_NULL("P0001", "执行链上下文为空"),
+    BUSINESS_CODE_IS_NULL("P0002", "消息业务代码为空"),
+    Execution_Chain_IS_NULL("P0003", "消息业务代码对应执行链配置为空"),
+    Execution_LIST_IS_NULL("P0004", "执行链的执行列表为空"),
     ;
 
     /**
      * 响应状态
      */
     private final String code;
-
     /**
      * 响应编码
      */

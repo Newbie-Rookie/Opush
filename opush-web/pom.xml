@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-<!--    <packaging>war</packaging>-->
+    <!--<packaging>war</packaging>-->
 
     <artifactId>opush-web</artifactId>
 
@@ -16,6 +16,16 @@
         <dependency>
             <groupId>com.lin.opush</groupId>
             <artifactId>opush-support</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lin.opush</groupId>
+            <artifactId>opush-service-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lin.opush</groupId>
+            <artifactId>opush-service-api-impl</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -32,6 +42,11 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
 
         <dependency>

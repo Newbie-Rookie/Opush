@@ -11,5 +11,16 @@
 
     <artifactId>opush-service-api-impl</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.lin.opush</groupId>
+            <artifactId>opush-service-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lin.opush</groupId>
+            <artifactId>opush-support</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

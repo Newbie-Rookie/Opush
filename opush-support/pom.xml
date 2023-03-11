@@ -89,5 +89,11 @@
             <groupId>de.siegmar</groupId>
             <artifactId>logback-gelf</artifactId>
         </dependency>
+
+        <!-- 注解打印日志 -->
+        <dependency>
+            <groupId>cn.monitor4all</groupId>
+            <artifactId>log-record-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>
