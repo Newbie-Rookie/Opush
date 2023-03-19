@@ -10,10 +10,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import com.lin.opush.domain.ChannelAccount;
+import com.lin.opush.domain.SmsRecord;
 import com.lin.opush.enums.ChannelType;
+import com.lin.opush.enums.SmsStatus;
 import com.lin.opush.vo.amis.CommonAmisVo;
-import com.lin.opush.vo.amis.EchartsVo;
-import com.lin.opush.vo.amis.SmsTimeLineVo;
+import com.lin.opush.vo.amis.SmsDataVo;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
@@ -136,8 +137,9 @@ public class Convert4Amis {
      */
     public static List<CommonAmisVo> getChannelAccountVo(List<ChannelAccount> channelAccounts, Integer channelType) {
         List<CommonAmisVo> result = new ArrayList<>();
-        if (ChannelType.SMS.getCode().equals(channelType)) {
-            CommonAmisVo commonAmisVo = CommonAmisVo.builder().label("Auto").value("系统流量配置").build();
+        // 短信和硬件渠道可走系统动态流量配置（channelAccount = 0）
+        if (ChannelType.SMS.getCode().equals(channelType) || ChannelType.EMAIL.getCode().equals(channelType)) {
+            CommonAmisVo commonAmisVo = CommonAmisVo.builder().label("Auto").value("0").build();
             result.add(commonAmisVo);
         }
         for (ChannelAccount channelAccount : channelAccounts) {
@@ -238,6 +240,38 @@ public class Convert4Amis {
         }
         Set<String> result = placeholderList.stream().map(s -> s.replaceAll("\\{", "").replaceAll("\\$", "").replaceAll("\\}", "")).collect(Collectors.toSet());
         return result;
+    }
+
+
+    /**
+     * 适配amis前端，获取 SmsTimeLineVo
+     * @return
+     */
+    public static SmsDataVo getSmsDataVo(Map<String, List<SmsRecord>> maps) {
+        // 表格列内容
+        List<SmsDataVo.ItemsVO> itemsVoS = new ArrayList<>();
+        // 表格整体内容
+        SmsDataVo smsDataVo = SmsDataVo.builder().items(itemsVoS).build();
+        // 遍历Map<手机号+下发批次id, 短信下发记录列表>
+        for (Map.Entry<String, List<SmsRecord>> entry : maps.entrySet()) {
+            // 创建每一个手机号+下发批次id对应的短信下发记录列表VO
+            SmsDataVo.ItemsVO itemsVO = SmsDataVo.ItemsVO.builder().build();
+            for (SmsRecord smsRecord : entry.getValue()) {
+                // 短信发送记录messageTemplateId > 0 , 短信回执记录messageTemplateId = 0
+                if (smsRecord.getMessageTemplateId() > 0) {
+                    itemsVO.setBusinessId(String.valueOf(smsRecord.getMessageTemplateId()));
+                    itemsVO.setContent(smsRecord.getMsgContent());
+                    itemsVO.setSendType(SmsStatus.getDescriptionByStatus(smsRecord.getStatus()));
+                    itemsVO.setSendTime(DateUtil.format(new Date(Long.valueOf(smsRecord.getCreated() * 1000L)), DatePattern.NORM_DATETIME_PATTERN));
+                } else {
+                    itemsVO.setReceiveType(SmsStatus.getDescriptionByStatus(smsRecord.getStatus()));
+                    itemsVO.setReceiveContent(smsRecord.getReportContent());
+                    itemsVO.setReceiveTime(DateUtil.format(new Date(Long.valueOf(smsRecord.getUpdated() * 1000L)), DatePattern.NORM_DATETIME_PATTERN));
+                }
+            }
+            itemsVoS.add(itemsVO);
+        }
+        return smsDataVo;
     }
 
     /**
@@ -342,34 +376,5 @@ public class Convert4Amis {
 //                .tooltip(EchartsVo.TooltipVO.builder().build())
 //                .build();
 //
-//    }
-
-    /**
-     * 适配amis前端，获取 SmsTimeLineVo
-     * @return
-     */
-//    public static SmsTimeLineVo getSmsTimeLineVo(Map<String, List<SmsRecord>> maps) {
-//
-//        ArrayList<SmsTimeLineVo.ItemsVO> itemsVoS = new ArrayList<>();
-//        SmsTimeLineVo smsTimeLineVo = SmsTimeLineVo.builder().items(itemsVoS).build();
-//
-//        for (Map.Entry<String, List<SmsRecord>> entry : maps.entrySet()) {
-//            SmsTimeLineVo.ItemsVO itemsVO = SmsTimeLineVo.ItemsVO.builder().build();
-//            for (SmsRecord smsRecord : entry.getValue()) {
-//                // 发送记录 messageTemplateId >0 ,回执记录 messageTemplateId =0
-//                if (smsRecord.getMessageTemplateId() > 0) {
-//                    itemsVO.setBusinessId(String.valueOf(smsRecord.getMessageTemplateId()));
-//                    itemsVO.setContent(smsRecord.getMsgContent());
-//                    itemsVO.setSendType(SmsStatus.getDescriptionByStatus(smsRecord.getStatus()));
-//                    itemsVO.setSendTime(DateUtil.format(new Date(Long.valueOf(smsRecord.getCreated() * 1000L)), DatePattern.NORM_DATETIME_PATTERN));
-//                } else {
-//                    itemsVO.setReceiveType(SmsStatus.getDescriptionByStatus(smsRecord.getStatus()));
-//                    itemsVO.setReceiveContent(smsRecord.getReportContent());
-//                    itemsVO.setReceiveTime(DateUtil.format(new Date(Long.valueOf(smsRecord.getUpdated() * 1000L)), DatePattern.NORM_DATETIME_PATTERN));
-//                }
-//            }
-//            itemsVoS.add(itemsVO);
-//        }
-//        return smsTimeLineVo;
 //    }
 }

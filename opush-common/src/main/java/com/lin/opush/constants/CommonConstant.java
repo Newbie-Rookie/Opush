@@ -5,6 +5,7 @@ package com.lin.opush.constants;
  */
 public class CommonConstant {
     public final static String PERIOD = ".";
+    public final static String SPACE = " ";
     public final static String COMMA = ",";
     public final static String COLON = ":";
     public final static String SEMICOLON = ";";

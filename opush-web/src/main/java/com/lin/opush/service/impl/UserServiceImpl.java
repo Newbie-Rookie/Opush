@@ -5,15 +5,14 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson.JSON;
 import com.lin.opush.dao.UserDao;
 import com.lin.opush.domain.ChannelAccount;
 import com.lin.opush.domain.User;
 import com.lin.opush.dto.UserDTO;
 import com.lin.opush.dto.account.sms.TencentSmsAccount;
-import com.lin.opush.service.IChannelAccountService;
-import com.lin.opush.service.IUserService;
-import com.lin.opush.utils.TencentSmsScript;
+import com.lin.opush.service.ChannelAccountService;
+import com.lin.opush.service.UserService;
 import com.lin.opush.utils.UserHolder;
 import com.lin.opush.vo.BasicResultVO;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +34,12 @@ import static com.lin.opush.constants.RegexConstant.PHONE_REGEX;
  */
 @Slf4j
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
     @Autowired
-    private IChannelAccountService channelAccountService;
+    private ChannelAccountService channelAccountService;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -63,7 +62,7 @@ public class UserServiceImpl implements IUserService {
         // 5.发送验证码
         // 5.1 获取短信渠道配置
         ChannelAccount channelAccount = channelAccountService.queryByName(smsName);
-        TencentSmsAccount tencentSmsAccount = JSON.to(TencentSmsAccount.class, channelAccount.getAccountConfig());
+        TencentSmsAccount tencentSmsAccount = JSON.parseObject(channelAccount.getAccountConfig(), TencentSmsAccount.class);
         // 5.2 发送验证码
         // TencentSmsScript.send(tencentSmsAccount, phone, code);
         // 返回success
@@ -113,9 +112,8 @@ public class UserServiceImpl implements IUserService {
         String token = UUID.randomUUID().toString(true);
         // 6.2.将User对象转为HashMap存储
         Map<String, Object> userMap = BeanUtil.beanToMap(user, new HashMap<>(),
-                CopyOptions.create()
-                        .setIgnoreNullValue(true)
-                        .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+                CopyOptions.create().setIgnoreNullValue(true)
+                .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
         // 6.3.存储
         String tokenKey = LOGIN_USER_KEY + token;
         stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);

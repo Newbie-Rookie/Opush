@@ -8,7 +8,7 @@
     <modules>
         <module>opush-common</module>
         <module>opush-web</module>
-        <module>opush-handler</module>
+        <module>opush-process</module>
         <module>opush-service-api</module>
         <module>opush-service-api-impl</module>
         <module>opush-support</module>
@@ -82,7 +82,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
-                <version>2.0.21</version>
+                <version>1.2.83</version>
             </dependency>
 
             <!--腾讯sdk-->
@@ -90,6 +90,13 @@
                 <groupId>com.tencentcloudapi</groupId>
                 <artifactId>tencentcloud-sdk-java</artifactId>
                 <version>3.1.688</version>
+            </dependency>
+
+            <!--邮件发送-->
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>1.6.2</version>
             </dependency>
 
             <!-- graylog -->
@@ -104,6 +111,13 @@
                 <groupId>cn.monitor4all</groupId>
                 <artifactId>log-record-starter</artifactId>
                 <version>1.0.4.1</version>
+            </dependency>
+
+            <!--动态线程池引入-->
+            <dependency>
+                <groupId>io.github.lyh200</groupId>
+                <artifactId>dynamic-tp-spring-boot-starter-apollo</artifactId>
+                <version>1.0.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

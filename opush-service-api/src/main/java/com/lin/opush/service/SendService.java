@@ -9,14 +9,14 @@ import com.lin.opush.domain.SendResponse;
  */
 public interface SendService {
     /**
-     * 单条消息发送接口
+     * 单模板单文案发送接口
      * @param sendRequest
      * @return
      */
     SendResponse send(SendRequest sendRequest);
 
     /**
-     * 批量消息发送接口
+     * 单模板多文案发送接口（减少多次远程调用）
      * @param batchSendRequest
      * @return
      */

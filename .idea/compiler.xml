@@ -11,14 +11,14 @@
         <module name="opush-service-api" />
         <module name="opush-web" />
         <module name="opush-support" />
-        <module name="opush-handler" />
+        <module name="opush-process" />
         <module name="opush-service-api-impl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Opush" target="1.8" />
       <module name="opush-common" target="1.8" />
-      <module name="opush-handler" target="1.8" />
+      <module name="opush-process" target="1.8" />
       <module name="opush-service-api" target="1.8" />
       <module name="opush-service-api-impl" target="1.8" />
       <module name="opush-support" target="1.8" />
@@ -28,7 +28,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="opush-common" options="-parameters" />
-      <module name="opush-handler" options="-parameters" />
+      <module name="opush-process" options="-parameters" />
       <module name="opush-service-api" options="-parameters" />
       <module name="opush-service-api-impl" options="-parameters" />
       <module name="opush-support" options="-parameters" />

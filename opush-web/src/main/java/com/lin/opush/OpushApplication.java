@@ -1,13 +1,16 @@
 package com.lin.opush;
 
+import com.lin.opush.receiver.kafka.StartKafkaReceiver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 /**
  * 启动类
  * @author Lin
  */
 @SpringBootApplication
+@Import(StartKafkaReceiver.class)
 public class OpushApplication {
     public static void main(String[] args) {
 

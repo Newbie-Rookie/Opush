@@ -10,7 +10,7 @@ import com.lin.opush.domain.SendResponse;
 import com.lin.opush.enums.BusinessCode;
 import com.lin.opush.enums.RespStatusEnum;
 import com.lin.opush.exception.CommonException;
-import com.lin.opush.service.IMessageTemplateService;
+import com.lin.opush.service.MessageTemplateService;
 import com.lin.opush.service.RecallService;
 import com.lin.opush.service.SendService;
 import com.lin.opush.utils.Convert4Amis;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/messageTemplate")
 public class MessageTemplateController {
     @Autowired
-    private IMessageTemplateService messageTemplateService;
+    private MessageTemplateService messageTemplateService;
 
     @Autowired
     private SendService sendService;
@@ -90,7 +90,7 @@ public class MessageTemplateController {
         // 组装消息参数（消息接收者、消息下发参数）
         MessageParam messageParam = MessageParam.builder().receiver(messageTemplateParam.getReceiver()).variables(variables).build();
         // 组装消息下发请求（业务类型：send、消息模板id、消息参数）
-        SendRequest sendRequest = SendRequest.builder().code(BusinessCode.COMMON_SEND.getCode()).messageTemplateId(messageTemplateParam.getId()).messageParam(messageParam).build();
+        SendRequest sendRequest = SendRequest.builder().code(BusinessCode.SEND.getCode()).messageTemplateId(messageTemplateParam.getId()).messageParam(messageParam).build();
         // 调用消息下发方法
         SendResponse response = sendService.send(sendRequest);
         // 根据下发情况成立

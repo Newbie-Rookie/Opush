@@ -1,7 +1,7 @@
 package com.lin.opush.config;
 
-import com.lin.opush.utils.LoginInterceptor;
-import com.lin.opush.utils.RefreshTokenInterceptor;
+import com.lin.opush.interceptor.LoginInterceptor;
+import com.lin.opush.interceptor.RefreshTokenInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

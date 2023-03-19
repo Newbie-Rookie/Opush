@@ -1,7 +1,7 @@
 package com.lin.opush.controller;
 
 import com.lin.opush.dto.UserDTO;
-import com.lin.opush.service.IUserService;
+import com.lin.opush.service.UserService;
 import com.lin.opush.vo.BasicResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     /**
      * 发送手机验证码

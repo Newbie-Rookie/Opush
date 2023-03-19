@@ -12,16 +12,16 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum BusinessCode {
     /**
-     * 普通发送业务
+     * 发送业务
      */
-    COMMON_SEND("send", "普通发送"),
+    SEND("send", "发送消息"),
     /**
      * 撤回业务
      */
     RECALL("recall", "撤回消息");
     /**
-     * 关联不同的执行链 → ProcessChain
-     *      关联关系存储在Map中（com.lin.opush.pipeline.ProcessController#processChainConfig）
+     * 关联不同的执行链 → ExecutionChain
+     *      关联关系存储在Map中（com.lin.opush.chain.ExecutionController#executionChainConfig）
      */
     private final String code;
     /**

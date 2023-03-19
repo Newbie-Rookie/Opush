@@ -9,8 +9,7 @@ import com.lin.opush.dao.MessageTemplateDao;
 import com.lin.opush.domain.MessageTemplate;
 import com.lin.opush.enums.AuditStatus;
 import com.lin.opush.enums.MessageStatus;
-import com.lin.opush.enums.RespStatusEnum;
-import com.lin.opush.service.IMessageTemplateService;
+import com.lin.opush.service.MessageTemplateService;
 import com.lin.opush.vo.BasicResultVO;
 import com.lin.opush.vo.MessageTemplateParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.lin.opush.constants.CommonConstant.IS_NULL;
-
 /**
  * 消息模板管理服务接口实现
  */
 @Service
-public class MessageTemplateServiceImpl implements IMessageTemplateService {
+public class MessageTemplateServiceImpl implements MessageTemplateService {
     @Autowired
     private MessageTemplateDao messageTemplateDao;
 
