@@ -32,6 +32,11 @@ public class SmsDataVo {
         private String businessId;
 
         /**
+         * 接收者【手机号】
+         */
+        private Long phone;
+
+        /**
          * 发送内容
          */
         private String content;

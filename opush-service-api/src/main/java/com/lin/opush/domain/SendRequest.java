@@ -30,4 +30,9 @@ public class SendRequest {
      * 消息相关的参数【执行业务类型为"send"时必传】
      */
     private MessageParam messageParam;
+
+    /**
+     * 下发者
+     */
+    private String creator;
 }

@@ -85,4 +85,9 @@ public class SmsRecord {
      * 更新时间
      */
     private Integer updated;
+
+    /**
+     * 下发者
+     */
+    private String creator;
 }

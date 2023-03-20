@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageTypeSmsConfig {
+public class MessageTypeConfig {
     /**
      * 权重(决定着流量的占比)
      */
@@ -24,7 +24,12 @@ public class MessageTypeSmsConfig {
     private Integer sendAccount;
 
     /**
-     * script名称
+     * 脚本名称
      */
     private String scriptName;
+
+    /**
+     * 渠道商名
+     */
+    private String supplierName;
 }

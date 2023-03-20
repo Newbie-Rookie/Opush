@@ -4,8 +4,12 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import com.lin.opush.constants.CommonConstant;
 import com.lin.opush.dao.MessageTemplateDao;
 import com.lin.opush.dao.SmsRecordDao;
+import com.lin.opush.domain.MessageTemplate;
 import com.lin.opush.domain.SmsRecord;
 import com.lin.opush.service.DataTraceService;
 import com.lin.opush.utils.Convert4Amis;
@@ -13,8 +17,12 @@ import com.lin.opush.utils.RedisUtils;
 import com.lin.opush.vo.DataTraceParam;
 import com.lin.opush.vo.amis.SmsDataVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,20 +50,44 @@ public class DataTraceServiceImpl implements DataTraceService {
     private SmsRecordDao smsRecordDao;
 
     /**
-     * 获取短信下发记录
+     * 获取短信下发记录列表
      * @param dataTraceParam 数据全链路追踪请求参数
-     * @return 短信下发记录对应VO
+     * @return 分页短信下发记录列表对应VO
      */
     @Override
-    public SmsDataVo getSmsDataTrace(DataTraceParam dataTraceParam) {
-        // 查询短信下发记录时间点【yyyyMMdd，查询用户指定时间的该天】
-        Integer sendDate = Integer.valueOf(DateUtil.format(new Date(dataTraceParam.getDateTime() * 1000L), DatePattern.PURE_DATE_PATTERN));
-        // 获取短信下发记录列表
-        List<SmsRecord> smsRecordList = smsRecordDao.findByPhoneEqualsAndSendDateEquals(Long.valueOf(dataTraceParam.getReceiver()), sendDate);
+    public SmsDataVo querySmsDataTraceList(DataTraceParam dataTraceParam){
+        // 判断页码和是否合理（page > 0, perPage >= 1）并生成分页请求对象
+        PageRequest pageRequest = PageRequest.of(dataTraceParam.getPage() - 1, dataTraceParam.getPerPage());
+        // root: 代表查询的根对象，即SmsRecord（短信下发记录）
+        // criteriaQuery: 顶层查询对象，sql语句关键字，用于自定义查询方式（基本不用）
+        // criteriaBuilder: 查询构造器，封装很多的查询条件
+        Page<SmsRecord> smsRecords = smsRecordDao.findAll((Specification<SmsRecord>) (root, criteriaQuery, criteriaBuilder) -> {
+            // 搜索条件列表
+            List<Predicate> predicateList = new ArrayList<>();
+            // 添加搜索条件（接收者、下发时间、记录创建者）
+            if (StrUtil.isNotBlank(dataTraceParam.getReceiver())) {
+                predicateList.add(criteriaBuilder.like(root.get("phone").as(String.class), "%" + dataTraceParam.getReceiver() + "%"));
+            }
+            if (ObjectUtil.isNotNull(dataTraceParam.getDateTime())) {
+                // 查询短信下发记录时间点【yyyyMMdd，查询用户指定时间的该天】
+                Integer sendDate = Integer.valueOf(DateUtil.format(new Date(dataTraceParam.getDateTime() * 1000L), DatePattern.PURE_DATE_PATTERN));
+                predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get("sendDate").as(Integer.class), sendDate));
+            }
+            predicateList.add(criteriaBuilder.equal(root.get("creator").as(String.class), dataTraceParam.getCreator()));
+            Predicate[] predicate = new Predicate[predicateList.size()];
+            criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(predicate)));
+            // 查询内容按更新时间排序
+            criteriaQuery.orderBy(criteriaBuilder.desc(root.get("created")));
+            // 返回与where子句限制相对应的predicates，如果未指定限制，则返回null
+            return criteriaQuery.getRestriction();
+        }, pageRequest);
+        // 将分页对象转为短信下发记录列表
+        List<SmsRecord> smsRecordList = smsRecords.toList();
         if (CollUtil.isEmpty(smsRecordList)) {
             return SmsDataVo.builder().items(Arrays.asList(SmsDataVo.ItemsVO.builder().build())).build();
         }
         // 根据手机号+下发批次id分组出入Map<手机号+下发批次id, 短信下发记录列表>
+        // 将同一条短信下发和短信回执拼装为一条短信记录
         Map<String, List<SmsRecord>> maps = smsRecordList.stream().collect(Collectors.groupingBy((o) -> o.getPhone() + o.getSeriesId()));
         return Convert4Amis.getSmsDataVo(maps);
     }

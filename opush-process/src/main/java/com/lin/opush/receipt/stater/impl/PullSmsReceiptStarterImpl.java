@@ -64,7 +64,7 @@ public class PullSmsReceiptStarterImpl implements PullReceiptStater {
                 }
             }
         } catch (Exception e) {
-            log.error("SmsPullReceiptStarter#start fail:{}", Throwables.getStackTraceAsString(e));
+            log.error("PullSmsReceiptStarterImpl#start fail:{}", Throwables.getStackTraceAsString(e));
 
         }
     }

@@ -88,9 +88,15 @@ public class MessageTemplateController {
         // 将消息下发的参数信息组装为map
         Map<String, String> variables = JSON.parseObject(messageTemplateParam.getMsgContent(), Map.class);
         // 组装消息参数（消息接收者、消息下发参数）
-        MessageParam messageParam = MessageParam.builder().receiver(messageTemplateParam.getReceiver()).variables(variables).build();
-        // 组装消息下发请求（业务类型：send、消息模板id、消息参数）
-        SendRequest sendRequest = SendRequest.builder().code(BusinessCode.SEND.getCode()).messageTemplateId(messageTemplateParam.getId()).messageParam(messageParam).build();
+        MessageParam messageParam = MessageParam.builder()
+                                                .receiver(messageTemplateParam.getReceiver())
+                                                .variables(variables).build();
+        // 组装消息下发请求（业务类型：send、消息模板id、消息参数、下发者）
+        SendRequest sendRequest = SendRequest.builder()
+                                            .code(BusinessCode.SEND.getCode())
+                                            .messageTemplateId(messageTemplateParam.getId())
+                                            .messageParam(messageParam)
+                                            .creator(messageTemplateParam.getCreator()).build();
         // 调用消息下发方法
         SendResponse response = sendService.send(sendRequest);
         // 根据下发情况成立

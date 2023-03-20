@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Entity(name = "tb_channel_account")
 @ToString
 public class ChannelAccount {
-
     /**
      * 渠道账号ID（自增主键）
      */

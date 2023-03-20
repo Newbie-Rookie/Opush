@@ -6,8 +6,10 @@ import com.lin.opush.dao.ChannelAccountDao;
 import com.lin.opush.domain.ChannelAccount;
 import com.lin.opush.dto.account.WeChatMiniProgramAccount;
 import com.lin.opush.dto.account.WeChatOfficialAccount;
+import com.lin.opush.dto.account.email.EmailAccount;
 import com.lin.opush.dto.account.sms.SmsAccount;
 import com.lin.opush.enums.ChannelType;
+import com.sun.mail.util.MailSSLSocketFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -22,26 +24,32 @@ import java.util.Optional;
 @Slf4j
 @Configuration
 public class AccountUtils {
-
+    /**
+     * 渠道账号 Dao
+     */
     @Autowired
     private ChannelAccountDao channelAccountDao;
+
+    /**
+     * Redis模板
+     */
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 通过脚本名匹配到对应的短信账号
      * @param scriptName 脚本名
-     * @param clazz
-     * @param <T>
+     * @param clazz 脚本名对应的class
+     * @param <T> 短信账号
      * @return
      */
     public <T> T getSmsAccountByScriptName(String scriptName, Class<T> clazz) {
         try {
-            // 根据发送渠道获取所有渠道账号
+            // 根据发送渠道获取所有短信渠道账号
             List<ChannelAccount> channelAccountList = channelAccountDao.findAllBySendChannelEquals(ChannelType.SMS.getCode());
             for (ChannelAccount channelAccount : channelAccountList) {
                 try {
-                    // 根据scriptName(服务商名称)获取对应渠道账号
+                    // 根据scriptName(脚本名称)获取对应渠道账号
                     SmsAccount smsAccount = JSON.parseObject(channelAccount.getAccountConfig(), SmsAccount.class);
                     if (smsAccount.getScriptName().equals(scriptName)) {
                         return JSON.parseObject(channelAccount.getAccountConfig(), clazz);
@@ -54,6 +62,44 @@ public class AccountUtils {
             log.error("AccountUtils#getSmsAccountByScriptName fail! e:{}", Throwables.getStackTraceAsString(e));
         }
         log.error("AccountUtils#getSmsAccountByScriptName not found!:{}", scriptName);
+        return null;
+    }
+
+    /**
+     * 通过渠道商名匹配到对应的邮件账号
+     * @param supplierName 渠道商名
+     * @param clazz EmailAccount.class
+     * @return 邮件账号
+     */
+    public EmailAccount getEmailAccountBySupplierName(String supplierName, Class<EmailAccount> clazz) {
+        try {
+            // 根据发送渠道获取所有邮件渠道账号
+            List<ChannelAccount> channelAccountList = channelAccountDao.findAllBySendChannelEquals(ChannelType.EMAIL.getCode());
+            for (ChannelAccount channelAccount : channelAccountList) {
+                try {
+                    // 根据supplierName(渠道商名称)获取对应渠道账号
+                    EmailAccount emailAccount = JSON.parseObject(channelAccount.getAccountConfig(), clazz);
+                    if (emailAccount.getSupplierName().equals(supplierName)) {
+                        MailSSLSocketFactory sf = new MailSSLSocketFactory();
+                        // 设置SSL加密
+                        sf.setTrustAllHosts(true);
+                        // 检查是否使用STARTTLS安全连接、是否授权、是否使用SSL安全连接
+                        emailAccount.setStarttlsEnable(emailAccount.isStarttlsEnable())
+                                    .setAuth(emailAccount.isAuth())
+                                    .setSslEnable(emailAccount.isSslEnable())
+                                    .setCustomProperty("mail.smtp.ssl.socketFactory", sf)
+                                    // SMTP超时时长、Socket超时时长
+                                    .setTimeout(25000).setConnectionTimeout(25000);
+                        return emailAccount;
+                    }
+                } catch (Exception e) {
+                    log.error("AccountUtils#getEmailAccountBySupplierName parse fail! e:{},account:{}", Throwables.getStackTraceAsString(e), JSON.toJSONString(channelAccount));
+                }
+            }
+        } catch (Exception e) {
+            log.error("AccountUtils#getEmailAccountBySupplierName fail! e:{}", Throwables.getStackTraceAsString(e));
+        }
+        log.error("AccountUtils#getEmailAccountBySupplierName not found!:{}", supplierName);
         return null;
     }
 

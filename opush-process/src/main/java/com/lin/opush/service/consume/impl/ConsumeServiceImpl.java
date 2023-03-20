@@ -66,10 +66,9 @@ public class ConsumeServiceImpl implements ConsumeService {
         for (TaskInfo taskInfo : taskInfoLists) {
             // 记录任务发送日志并埋点
             logUtils.print(LogParam.builder().bizType(LOG_BIZ_TYPE).object(taskInfo).build(),
-                                            AnchorInfo.builder().ids(taskInfo.getReceiver()).
-                                                        businessId(taskInfo.getBusinessId()).
-                                                        state(AnchorState.RECEIVE.getCode()).
-                                                                                    build());
+                                            AnchorInfo.builder().ids(taskInfo.getReceiver())
+                                                                .businessId(taskInfo.getBusinessId())
+                                                                .state(AnchorState.RECEIVE.getCode()).build());
             // 创建任务（run方法）
             Task task = context.getBean(Task.class).setTaskInfo(taskInfo);
             // 根据groupId获取对应线程池执行任务

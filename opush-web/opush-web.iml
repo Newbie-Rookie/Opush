@@ -135,11 +135,11 @@
     <orderEntry type="library" name="Maven: com.alibaba:transmittable-thread-local:2.12.1" level="project" />
     <orderEntry type="library" name="Maven: io.github.lyh200:dynamic-tp-logging:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.15" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.mail:javax.mail:1.6.2" level="project" />
+    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="module" module-name="opush-service-api" />
     <orderEntry type="module" module-name="opush-service-api-impl" />
     <orderEntry type="module" module-name="opush-process" />
-    <orderEntry type="library" name="Maven: com.sun.mail:javax.mail:1.6.2" level="project" />
-    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.7.7" level="project" />

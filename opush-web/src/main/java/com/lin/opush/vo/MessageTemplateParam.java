@@ -32,7 +32,7 @@ public class MessageTemplateParam {
     private Long id;
 
     /**
-     * 当前登录用户
+     * 当前登录用户【下发者】
      */
     private String creator;
 

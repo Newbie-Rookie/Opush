@@ -1,26 +1,22 @@
 package com.lin.opush;
 
-import com.lin.opush.receiver.kafka.StartKafkaReceiver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
 
 /**
  * 启动类
  * @author Lin
  */
 @SpringBootApplication
-@Import(StartKafkaReceiver.class)
 public class OpushApplication {
     public static void main(String[] args) {
-
         /**
-         * 如果你需要启动Apollo动态配置
-         * 1、启动apollo
-         * 2、将application.properties配置文件的 austin.apollo.enabled 改为true
-         * 3、下方的property替换真实的ip和port
+         * 若接入远程配置服务Apollo
+         *      1、启动apollo
+         *      2、将application-dev.properties的opush.apollo.enabled改为true
+         *      3、开启下发配置
          */
-        // System.setProperty("apollo.config-com.lin.opush.com.lin.opush.service", "http://austin.apollo.config:5001");
+        // System.setProperty("apollo.config-com.lin.opush.com.lin.opush.service", "http://opush.apollo.config:5001");
         SpringApplication.run(OpushApplication.class, args);
     }
 }

@@ -29,7 +29,7 @@ public class SendServiceImpl implements SendService {
         SendTaskModel sendTaskModel = SendTaskModel.builder()
                                         .messageTemplateId(sendRequest.getMessageTemplateId())
                                         .messageParamList(Collections.singletonList(sendRequest.getMessageParam()))
-                                        .build();
+                                        .creator(sendRequest.getCreator()).build();
         // 组装执行链上下文
         ExecutionChainContext context = ExecutionChainContext.builder()
                                             .code(sendRequest.getCode())

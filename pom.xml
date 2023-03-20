@@ -12,6 +12,7 @@
         <module>opush-service-api</module>
         <module>opush-service-api-impl</module>
         <module>opush-support</module>
+        <module>opush-timed</module>
     </modules>
 
     <parent>

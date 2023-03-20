@@ -11,13 +11,13 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
- * 拉取回执信息入口
+ * 拉取回执入口
  */
 @Component
 @Slf4j
-public class MessageReceipt {
+public class PullReceipt {
     /**
-     * 拉取回执启动器实现类列表
+     * 拉取回执启动器实现类列表【拉取不同渠道消息回执】
      */
     @Autowired
     private List<PullReceiptStater> pullReceiptStaterList;
@@ -26,14 +26,14 @@ public class MessageReceipt {
     private void init() {
         // 获取线程池执行任务【拉取回执】
         SupportThreadPoolConfig.getThreadPool().execute(() -> {
+            // 项目启动后就一直拉取消息回执入库
             while (true) {
                 try {
                     for (PullReceiptStater pullReceiptStater : pullReceiptStaterList) {
                         pullReceiptStater.start();
                     }
-                    // Thread.sleep(2000);
                 } catch (Exception e) {
-                    log.error("MessageReceipt#init fail:{}", Throwables.getStackTraceAsString(e));
+                    log.error("PullReceipt#init fail:{}", Throwables.getStackTraceAsString(e));
                 }
             }
         });

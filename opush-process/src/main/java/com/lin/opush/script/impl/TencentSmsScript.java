@@ -6,6 +6,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Throwables;
+import com.lin.opush.dao.SmsRecordDao;
 import com.lin.opush.domain.SmsRecord;
 import com.lin.opush.domain.sms.SmsParam;
 import com.lin.opush.dto.account.sms.TencentSmsAccount;
@@ -44,6 +45,12 @@ public class TencentSmsScript implements SmsScript {
      */
     @Autowired
     private AccountUtils accountUtils;
+
+    /**
+     * 短信下发记录工具类
+     */
+    @Autowired
+    private SmsRecordDao smsRecordDao;
 
     /**
      * 初始化发送短信客户端
@@ -113,7 +120,7 @@ public class TencentSmsScript implements SmsScript {
                                     .reportContent(sendStatus.getCode())
                                     .created(Math.toIntExact(DateUtil.currentSeconds()))
                                     .updated(Math.toIntExact(DateUtil.currentSeconds()))
-                                    .build();
+                                    .creator(smsParam.getCreator()).build();
             smsRecordList.add(smsRecord);
         }
         return smsRecordList;
@@ -155,12 +162,12 @@ public class TencentSmsScript implements SmsScript {
                                         .seriesId(pullSmsSendStatus.getSerialNo())
                                         .chargingNum(0)
                                         .status("SUCCESS".equals(pullSmsSendStatus.getReportStatus()) ?
-                                                    SmsStatus.RECEIVE_SUCCESS.getCode() :
-                                                    SmsStatus.RECEIVE_FAIL.getCode())
+                                                                    SmsStatus.RECEIVE_SUCCESS.getCode() :
+                                                                    SmsStatus.RECEIVE_FAIL.getCode())
                                         .reportContent(pullSmsSendStatus.getDescription())
                                         .updated(Math.toIntExact(pullSmsSendStatus.getUserReceiveTime()))
                                         .created(Math.toIntExact(DateUtil.currentSeconds()))
-                                        .build();
+                                        .creator(smsRecordDao.findBySeriesIdEquals(pullSmsSendStatus.getSerialNo()).getCreator()).build();
                 smsRecordList.add(smsRecord);
             }
         }

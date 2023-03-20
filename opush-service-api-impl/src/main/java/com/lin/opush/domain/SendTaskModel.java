@@ -39,4 +39,9 @@ public class SendTaskModel implements ExecutionChainDataModel {
      * 撤回任务的信息【通过消息模板id进行撤回】
      */
     private MessageTemplate messageTemplate;
+
+    /**
+     * 下发者
+     */
+    private String creator;
 }

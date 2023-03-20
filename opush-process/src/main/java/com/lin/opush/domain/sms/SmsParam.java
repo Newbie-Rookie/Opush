@@ -36,4 +36,9 @@ public class SmsParam {
      * 发送文案
      */
     private String content;
+
+    /**
+     * 下发者
+     */
+    private String creator;
 }

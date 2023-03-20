@@ -97,7 +97,8 @@ public class AssembleParamAction implements ExecutionAction<SendTaskModel> {
                     .msgType(messageTemplate.getMsgType())
                     .sendAccount(messageTemplate.getSendAccount())
                     // 组装发送文案模型（不同发送渠道有不同的发送文案模型）
-                    .contentModel(getContentModelValue(messageTemplate, messageParam)).build();
+                    .contentModel(getContentModelValue(messageTemplate, messageParam))
+                    .creator(sendTaskModel.getCreator()).build();
             taskInfoList.add(taskInfo);
         }
         return taskInfoList;

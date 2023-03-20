@@ -1,18 +1,21 @@
 package com.lin.opush.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.lin.opush.domain.SmsRecord;
 import com.lin.opush.service.DataTraceService;
+import com.lin.opush.utils.Convert4Amis;
 import com.lin.opush.vo.DataTraceParam;
 import com.lin.opush.vo.amis.SmsDataVo;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 数据全链路追踪控制器
@@ -25,19 +28,13 @@ public class DataTraceController {
     private DataTraceService dataTraceService;
 
     /**
-     * 获取短信下发记录
+     * 获取短信下发记录列表
      * @param dataTraceParam 数据全链路追踪请求参数
      * @return 短信下发记录对应VO
      */
-    @PostMapping("/sms")
+    @PostMapping("/list")
     public SmsDataVo getSmsData(@RequestBody DataTraceParam dataTraceParam) {
-        if (Objects.isNull(dataTraceParam) ||
-                Objects.isNull(dataTraceParam.getDateTime()) ||
-                StrUtil.isBlank(dataTraceParam.getReceiver())) {
-            // 返回内容为空的SmsDataVo
-            return SmsDataVo.builder().items(Lists.newArrayList()).build();
-        }
-        return dataTraceService.getSmsDataTrace(dataTraceParam);
+        return dataTraceService.querySmsDataTraceList(dataTraceParam);
     }
 
 //    @PostMapping("/user")

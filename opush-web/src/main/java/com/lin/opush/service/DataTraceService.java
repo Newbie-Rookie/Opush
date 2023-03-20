@@ -8,11 +8,11 @@ import com.lin.opush.vo.amis.SmsDataVo;
  */
 public interface DataTraceService {
     /**
-     * 获取短信下发记录
+     * 获取短信下发记录列表
      * @param dataTraceParam 数据全链路追踪请求参数
-     * @return 短信下发记录对应VO
+     * @return 短信下发记录列表对应VO
      */
-    SmsDataVo getSmsDataTrace(DataTraceParam dataTraceParam);
+    SmsDataVo querySmsDataTraceList(DataTraceParam dataTraceParam);
 
     /**
      * 获取全链路追踪 用户维度信息
