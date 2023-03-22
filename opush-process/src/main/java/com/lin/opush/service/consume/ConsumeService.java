@@ -2,11 +2,12 @@ package com.lin.opush.service.consume;
 
 import com.lin.opush.domain.MessageTemplate;
 import com.lin.opush.domain.TaskInfo;
+import com.lin.opush.domain.sms.SmsReceipt;
 
 import java.util.List;
 
 /**
- * 消费消息服务（发送 / 撤回）
+ * 消费消息服务（发送 / 撤回 / 保存）
  */
 public interface ConsumeService {
     /**
@@ -20,4 +21,10 @@ public interface ConsumeService {
      * @param messageTemplate 消息模板
      */
     void consumeToRecall(MessageTemplate messageTemplate);
+
+    /**
+     * 从MQ拉到消息进行消费，保存短信回执
+     * @param receipt 短信回执
+     */
+    void consumeToSave(SmsReceipt receipt);
 }

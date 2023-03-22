@@ -25,7 +25,7 @@ public class SmsParam {
      * 发送渠道账号的id【若短信模板内指定发送渠道账号，则该字段有值】
      * 若指定发送渠道账号，则用发送渠道账号id检索，否则用scriptName检索
      */
-    private Integer sendAccountId;
+    private Long sendAccountId;
 
     /**
      * 渠道账号的脚本名标识

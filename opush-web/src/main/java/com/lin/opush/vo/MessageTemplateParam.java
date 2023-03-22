@@ -57,7 +57,7 @@ public class MessageTemplateParam {
     private String msgType;
 
     /**
-     * 消息接收者
+     * 消息接收者【多个用逗号隔开】
      * 测试发送时使用
      */
     private String receiver;

@@ -62,7 +62,7 @@ public class TaskInfo {
      * 渠道账号【标识统一发送渠道下的不同渠道账号】
      * 【邮件、短信有多个渠道账号...】
      */
-    private Integer sendAccount;
+    private Long sendAccount;
 
     /**
      * 下发者

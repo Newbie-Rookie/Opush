@@ -47,11 +47,11 @@ public class Task implements Runnable {
 
     @Override
     public void run() {
-        // 消息丢弃
+        // 消息丢弃【暂时根据模板id丢弃】
         if (messageDiscardService.isDiscard(taskInfo)) {
             return;
         }
-        // 消息去重
+        // 消息去重【5分钟相同内容、渠道、用户去重，一天相同渠道、用户去重】
         if (CollUtil.isNotEmpty(taskInfo.getReceiver())) {
             deduplicationServiceEntrance.deduplication(taskInfo);
         }

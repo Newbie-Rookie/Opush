@@ -260,6 +260,7 @@ public class Convert4Amis {
                 // 短信发送记录messageTemplateId > 0 , 短信回执记录messageTemplateId = 0
                 if (smsRecord.getMessageTemplateId() > 0) {
                     itemsVO.setBusinessId(String.valueOf(smsRecord.getMessageTemplateId()));
+                    itemsVO.setSupplierName(smsRecord.getSupplierName());
                     itemsVO.setPhone(smsRecord.getPhone());
                     itemsVO.setContent(smsRecord.getMsgContent());
                     itemsVO.setSendType(SmsStatus.getDescriptionByStatus(smsRecord.getStatus()));

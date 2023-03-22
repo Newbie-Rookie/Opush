@@ -21,10 +21,10 @@ public class KafkaSendMqServiceImpl implements SendMqService {
     /**
      * 发送消息
      * @param topic 发送给Kafka的主题
-     * @param taskInfoListJson 任务信息列表的JSON字符串
+     * @param json 任务信息列表 / 消息回执的JSON字符串
      */
     @Override
-    public void send(String topic, String taskInfoListJson) {
-        kafkaTemplate.send(topic, taskInfoListJson);
+    public void send(String topic, String json) {
+        kafkaTemplate.send(topic, json);
     }
 }

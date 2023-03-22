@@ -21,7 +21,7 @@ public class MessageTypeConfig {
     /**
      * 短信模板若指定发送渠道账号，则该字段有值
      */
-    private Integer sendAccount;
+    private Long sendAccount;
 
     /**
      * 脚本名称

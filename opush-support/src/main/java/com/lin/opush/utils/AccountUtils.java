@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.base.Throwables;
 import com.lin.opush.dao.ChannelAccountDao;
 import com.lin.opush.domain.ChannelAccount;
-import com.lin.opush.dto.account.WeChatMiniProgramAccount;
-import com.lin.opush.dto.account.WeChatOfficialAccount;
 import com.lin.opush.dto.account.email.EmailAccount;
 import com.lin.opush.dto.account.sms.SmsAccount;
 import com.lin.opush.enums.ChannelType;
@@ -113,7 +111,7 @@ public class AccountUtils {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public <T> T getAccountById(Integer sendAccountId, Class<T> clazz) {
+    public <T> T getAccountById(Long sendAccountId, Class<T> clazz) {
         try {
             Optional<ChannelAccount> optionalChannelAccount = channelAccountDao.findById(Long.valueOf(sendAccountId));
             if (optionalChannelAccount.isPresent()) {

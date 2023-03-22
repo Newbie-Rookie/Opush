@@ -16,11 +16,10 @@ public interface SmsScript {
      */
     List<SmsRecord> send(SmsParam smsParam);
 
-
     /**
      * 拉取回执
      * @param id 短信渠道账号ID
      * @return 渠道商回执接口返回值
      */
-    List<SmsRecord> pull(Integer id);
+    List<SmsRecord> pull(Long id);
 }

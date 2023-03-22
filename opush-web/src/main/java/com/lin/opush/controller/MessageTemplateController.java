@@ -7,6 +7,7 @@ import com.lin.opush.domain.MessageParam;
 import com.lin.opush.domain.MessageTemplate;
 import com.lin.opush.domain.SendRequest;
 import com.lin.opush.domain.SendResponse;
+import com.lin.opush.domain.sms.SmsReceipt;
 import com.lin.opush.enums.BusinessCode;
 import com.lin.opush.enums.RespStatusEnum;
 import com.lin.opush.exception.CommonException;
@@ -14,6 +15,7 @@ import com.lin.opush.service.MessageTemplateService;
 import com.lin.opush.service.RecallService;
 import com.lin.opush.service.SendService;
 import com.lin.opush.utils.Convert4Amis;
+import com.lin.opush.vo.BasicResultVO;
 import com.lin.opush.vo.MessageTemplateParam;
 import com.lin.opush.vo.MessageTemplateVo;
 
@@ -104,6 +106,15 @@ public class MessageTemplateController {
             throw new CommonException(response.getMsg());
         }
         return response;
+    }
+
+    /**
+     * 用于接收UniSMS的短信下发回执【暂时不支持内网URL，需部署到服务器才可行】
+     * @param receipt UniSMS短信回执
+     */
+    @GetMapping("/receipt")
+    public void saveReceipt(@RequestBody SmsReceipt receipt){
+        messageTemplateService.saveUniSMSReceipt(receipt);
     }
 
     /**

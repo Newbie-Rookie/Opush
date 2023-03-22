@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.lin.opush.constants.MessageQueueType;
 import com.lin.opush.domain.MessageTemplate;
 import com.lin.opush.domain.TaskInfo;
+import com.lin.opush.domain.sms.SmsReceipt;
 import com.lin.opush.service.consume.ConsumeService;
 import com.lin.opush.utils.GroupIdMappingUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class KafkaReceiver {
      * 发送消息
      * @KafkaListener的groupId已在项目启动时赋值为不同渠道的不同消息类型对应的groupId
      * @param consumerRecord 从消息队列中拉取的数据
-     * @param topicGroupId
+     * @param topicGroupId 消费者组id
      */
     @KafkaListener(topics = "#{'${opush.business.send.topic.name}'}")
     public void consumer(ConsumerRecord<?, String> consumerRecord, @Header(KafkaHeaders.GROUP_ID) String topicGroupId) {
@@ -62,7 +63,7 @@ public class KafkaReceiver {
 
     /**
      * 撤回消息
-     * @param consumerRecord
+     * @param consumerRecord 从消息队列中拉取的数据
      */
     @KafkaListener(topics = "#{'${opush.business.recall.topic.name}'}", groupId = "#{'${opush.business.recall.group.id}'}")
     public void recall(ConsumerRecord<?, String> consumerRecord) {
@@ -73,6 +74,22 @@ public class KafkaReceiver {
             // 将模板信息的JSON字符串转为模板信息对象
             MessageTemplate messageTemplate = JSON.parseObject(kafkaMessage.get(), MessageTemplate.class);
             consumeService.consumeToRecall(messageTemplate);
+        }
+    }
+
+    /**
+     * 保存短信回执
+     * @param consumerRecord 从消息队列中拉取的数据
+     */
+    @KafkaListener(topics = "#{'${opush.business.receipt.topic.name}'}", groupId = "#{'${opush.business.receipt.group.id}'}")
+    public void saveSmsReceipt(ConsumerRecord<?, String> consumerRecord) {
+        // 获取拉取的消息内容存入Optional容器
+        Optional<String> kafkaMessage = Optional.ofNullable(consumerRecord.value());
+        // Optional容器不为空
+        if (kafkaMessage.isPresent()) {
+            // 将模板信息的JSON字符串转为短信回执对象
+            SmsReceipt receipt = JSON.parseObject(kafkaMessage.get(), SmsReceipt.class);
+            consumeService.consumeToSave(receipt);
         }
     }
 }

@@ -39,6 +39,12 @@ public class PullSmsReceiptStarterImpl implements PullReceiptStater {
     private Map<String, SmsScript> scriptMap;
 
     /**
+     * 部分脚本【UniSmsScript】不使用主动拉取的方式拉取短信回执
+     * 需排除的脚本
+     */
+    private static final String EXCLUDE_SMS_SUPPLIER = "UniSMS";
+
+    /**
      * 短信记录 Dao
      */
     @Autowired
@@ -54,13 +60,16 @@ public class PullSmsReceiptStarterImpl implements PullReceiptStater {
             List<ChannelAccount> channelAccountList = channelAccountDao.findAllBySendChannelEquals(ChannelType.SMS.getCode());
             // 遍历短信渠道账号
             for (ChannelAccount channelAccount : channelAccountList) {
-                // 获取短信渠道配置
-                SmsAccount smsAccount = JSON.parseObject(channelAccount.getAccountConfig(), SmsAccount.class);
-                // 拉取回执
-                List<SmsRecord> smsRecordList = scriptMap.get(smsAccount.getScriptName()).pull(channelAccount.getId().intValue());
-                if (CollUtil.isNotEmpty(smsRecordList)) {
-                    // 持久化
-                    smsRecordDao.saveAll(smsRecordList);
+                // 排除部分脚本【不属于主动拉取的方式拉取回执】
+                if (!EXCLUDE_SMS_SUPPLIER.equals(channelAccount.getName())) {
+                    // 获取短信渠道配置
+                    SmsAccount smsAccount = JSON.parseObject(channelAccount.getAccountConfig(), SmsAccount.class);
+                    // 拉取回执
+                    List<SmsRecord> smsRecordList = scriptMap.get(smsAccount.getScriptName()).pull(channelAccount.getId());
+                    if (CollUtil.isNotEmpty(smsRecordList)) {
+                        // 持久化
+                        smsRecordDao.saveAll(smsRecordList);
+                    }
                 }
             }
         } catch (Exception e) {

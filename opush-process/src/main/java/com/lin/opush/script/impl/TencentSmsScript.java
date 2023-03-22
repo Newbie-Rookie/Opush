@@ -116,7 +116,9 @@ public class TencentSmsScript implements SmsScript {
                                     .msgContent(smsParam.getContent())
                                     .seriesId(sendStatus.getSerialNo())
                                     .chargingNum(Math.toIntExact(sendStatus.getFee()))
-                                    .status(SmsStatus.SEND_SUCCESS.getCode())
+                                    .status("ok".equals(sendStatus.getCode().toLowerCase()) ?
+                                                        SmsStatus.SEND_SUCCESS.getCode() :
+                                                        SmsStatus.SEND_FAIL.getCode())
                                     .reportContent(sendStatus.getCode())
                                     .created(Math.toIntExact(DateUtil.currentSeconds()))
                                     .updated(Math.toIntExact(DateUtil.currentSeconds()))
@@ -161,9 +163,9 @@ public class TencentSmsScript implements SmsScript {
                                         .msgContent("")
                                         .seriesId(pullSmsSendStatus.getSerialNo())
                                         .chargingNum(0)
-                                        .status("SUCCESS".equals(pullSmsSendStatus.getReportStatus()) ?
-                                                                    SmsStatus.RECEIVE_SUCCESS.getCode() :
-                                                                    SmsStatus.RECEIVE_FAIL.getCode())
+                                        .status("success".equals(pullSmsSendStatus.getReportStatus().toLowerCase()) ?
+                                                                                SmsStatus.RECEIVE_SUCCESS.getCode() :
+                                                                                SmsStatus.RECEIVE_FAIL.getCode())
                                         .reportContent(pullSmsSendStatus.getDescription())
                                         .updated(Math.toIntExact(pullSmsSendStatus.getUserReceiveTime()))
                                         .created(Math.toIntExact(DateUtil.currentSeconds()))
@@ -177,7 +179,7 @@ public class TencentSmsScript implements SmsScript {
     /**
      * 发送短信
      * @param smsParam 发送短信参数
-     * @return 短信记录
+     * @return 短信记录列表
      */
     @Override
     public List<SmsRecord> send(SmsParam smsParam) {
@@ -203,10 +205,10 @@ public class TencentSmsScript implements SmsScript {
     /**
      * 拉取回执
      * @param accountId 渠道账号Id
-     * @return 短信记录
+     * @return 短信记录列表
      */
     @Override
-    public List<SmsRecord> pull(Integer accountId) {
+    public List<SmsRecord> pull(Long accountId) {
         try {
             // 渠道账号
             TencentSmsAccount account = accountUtils.getAccountById(accountId, TencentSmsAccount.class);

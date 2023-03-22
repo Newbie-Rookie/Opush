@@ -6,10 +6,12 @@ import com.lin.opush.domain.AnchorInfo;
 import com.lin.opush.domain.LogParam;
 import com.lin.opush.domain.MessageTemplate;
 import com.lin.opush.domain.TaskInfo;
+import com.lin.opush.domain.sms.SmsReceipt;
 import com.lin.opush.enums.AnchorState;
 import com.lin.opush.domain.Task;
 import com.lin.opush.process.ProcessorHolder;
 import com.lin.opush.config.ThreadPoolHolder;
+import com.lin.opush.script.impl.UniSmsScript;
 import com.lin.opush.service.consume.ConsumeService;
 import com.lin.opush.utils.GroupIdMappingUtils;
 import com.lin.opush.utils.LogUtils;
@@ -49,6 +51,12 @@ public class ConsumeServiceImpl implements ConsumeService {
     private ProcessorHolder processorHolder;
 
     /**
+     * UniSMS脚本【处理UniSMS短信回执】
+     */
+    @Autowired
+    private UniSmsScript uniSmsScript;
+
+    /**
      * 记录日志工具类
      */
     @Autowired
@@ -84,7 +92,17 @@ public class ConsumeServiceImpl implements ConsumeService {
     public void consumeToRecall(MessageTemplate messageTemplate) {
         // 记录任务撤回日志
         logUtils.print(LogParam.builder().bizType(LOG_BIZ_RECALL_TYPE).object(messageTemplate).build());
-        // 根据发送渠道获取对应线程池执行任务
+        // 根据发送渠道获取处理器处理撤回任务
         processorHolder.route(messageTemplate.getSendChannel()).recall(messageTemplate);
+    }
+
+    /**
+     * 保存短信回执
+     * @param receipt 短信回执
+     */
+    @Override
+    public void consumeToSave(SmsReceipt receipt) {
+        // 处理短信回执
+        uniSmsScript.saveSmsReceipt(receipt);
     }
 }

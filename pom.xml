@@ -86,11 +86,30 @@
                 <version>1.2.83</version>
             </dependency>
 
-            <!--腾讯sdk-->
+            <!--腾讯云sdk-->
             <dependency>
                 <groupId>com.tencentcloudapi</groupId>
                 <artifactId>tencentcloud-sdk-java</artifactId>
                 <version>3.1.688</version>
+            </dependency>
+
+            <!--阿里云sdk-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>alibabacloud-dysmsapi20170525</artifactId>
+                <version>2.0.22</version>
+            </dependency>
+
+            <!-- UniSMS sdk -->
+            <dependency>
+                <groupId>com.apistd.uni</groupId>
+                <artifactId>uni-sdk</artifactId>
+                <version>0.0.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.konghq</groupId>
+                <artifactId>unirest-java</artifactId>
+                <version>3.13.6</version>
             </dependency>
 
             <!--邮件发送-->

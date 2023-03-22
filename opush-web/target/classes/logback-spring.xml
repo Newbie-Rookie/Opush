@@ -145,6 +145,19 @@
         <appender-ref ref="gelf"/>
     </root>
 
+    <!-- 关闭kafka的ProducerConfig和ConsumerConfig日志 -->
+    <!-- <logger name="org.apache.kafka.clients.producer.ProducerConfig" level="off" /> -->
+    <!-- <logger name="org.apache.kafka.clients.consumer.ConsumerConfig" level="off" /> -->
+    <!-- 关闭kafka所有日志 -->
+    <logger name="org.apache.kafka" level="off" />
+    <logger name="org.springframework.kafka" level="off" />
+    <!-- 关闭Kafka连接日志 -->
+    <!-- <logger name="org.apache.kafka.clients.NetworkClient" level="off" /> -->
+
+    <!-- 关闭线程池注册日志 -->
+    <logger name="com.dtp.core.DtpRegistry" level="off" />
+
+
     <!-- 日志配置的多环境开发 (也可使用多文件形式) -->
     <!--
     <springProfile name="dev">

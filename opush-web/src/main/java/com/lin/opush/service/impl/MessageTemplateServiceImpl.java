@@ -1,18 +1,29 @@
 package com.lin.opush.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.lin.opush.constants.CommonConstant;
 import com.lin.opush.constants.OpushConstant;
 import com.lin.opush.dao.MessageTemplateDao;
+import com.lin.opush.domain.ChannelAccount;
 import com.lin.opush.domain.MessageTemplate;
+import com.lin.opush.domain.SmsRecord;
+import com.lin.opush.domain.sms.SmsReceipt;
+import com.lin.opush.dto.account.sms.SmsAccount;
 import com.lin.opush.enums.AuditStatus;
+import com.lin.opush.enums.ChannelType;
 import com.lin.opush.enums.MessageStatus;
+import com.lin.opush.mq.SendMqService;
+import com.lin.opush.script.impl.UniSmsScript;
 import com.lin.opush.service.MessageTemplateService;
 import com.lin.opush.vo.BasicResultVO;
 import com.lin.opush.vo.MessageTemplateParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,8 +38,17 @@ import java.util.Objects;
  */
 @Service
 public class MessageTemplateServiceImpl implements MessageTemplateService {
+    /**
+     * 消息模板 Dao
+     */
     @Autowired
     private MessageTemplateDao messageTemplateDao;
+
+    @Autowired
+    private SendMqService sendMqService;
+
+    @Value("${opush.business.receipt.topic.name}")
+    private String sendReceiptTopic;
 
 //    @Autowired
 //    private CronTaskService cronTaskService;
@@ -145,6 +165,18 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
     public MessageTemplate queryById(Long id) {
         // 模板不存在则返回null
         return messageTemplateDao.findById(id).orElse(null);
+    }
+
+    /**
+     * 保存UniSMS短信回执
+     * @param receipt UniSMS短信回执
+     * @return 状态码
+     */
+    @Override
+    public void saveUniSMSReceipt(SmsReceipt receipt) {
+        // 将回执发送到MQ
+        sendMqService.send(sendReceiptTopic, JSON.toJSONString(receipt,
+                                    new SerializerFeature[]{SerializerFeature.WriteClassName}));
     }
 
     /**

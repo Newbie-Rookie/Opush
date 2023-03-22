@@ -1,10 +1,12 @@
 package com.lin.opush.service;
 
 import com.lin.opush.domain.MessageTemplate;
+import com.lin.opush.domain.sms.SmsReceipt;
 import com.lin.opush.vo.BasicResultVO;
 import com.lin.opush.vo.MessageTemplateParam;
 import org.springframework.data.domain.Page;
 
+import java.io.Reader;
 import java.util.List;
 
 /**
@@ -31,6 +33,12 @@ public interface MessageTemplateService {
      * @return 消息模板
      */
     MessageTemplate queryById(Long id);
+
+    /**
+     * 保存UniSMS短信回执
+     * @param receipt UniSMS短信回执
+     */
+    void saveUniSMSReceipt(SmsReceipt receipt);
 
     /**
      * 复制id对应的消息模板

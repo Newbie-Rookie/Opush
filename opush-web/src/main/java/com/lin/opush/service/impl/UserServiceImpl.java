@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    private String smsName = "腾讯云验证码短信";
+    private String smsName = "腾讯云";
 
     @Override
     public BasicResultVO sendCode(String phone) {
